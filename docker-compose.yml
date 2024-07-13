@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  canna:
+    environment:
+      - TZ=Asia/Jakarta
+    env_file:
+      - .env
+    image: $CI_REGISTRY_IMAGE:prod-latest
+    container_name: canna
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      liliumnet:
+        ipv4_address: 192.168.1.4
+
+networks:
+  liliumnet:
+    external:
+      name: liliumnet

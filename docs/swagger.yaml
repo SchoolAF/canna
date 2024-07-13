@@ -1,0 +1,191 @@
+basePath: /
+definitions:
+  issue.IssueData:
+    properties:
+      Edited:
+        type: boolean
+      Version:
+        type: string
+      allow_notify:
+        type: boolean
+      attachment_url:
+        type: string
+      author_name:
+        type: string
+      date:
+        type: string
+      description:
+        type: string
+      device:
+        type: string
+      device_parsed:
+        type: string
+      issue_id:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: string
+    type: object
+  issue.IssueDataPOST:
+    properties:
+      Version:
+        example: "14.3"
+        type: string
+      description:
+        example: Random reboot during use time
+        type: string
+      device:
+        example: mido
+        type: string
+      title:
+        example: Random Reboot
+        type: string
+    type: object
+host: canna.hlcyn.co
+info:
+  contact:
+    email: dev@hlcyn.co
+    name: Halcyon Team
+    url: https://github.com/halcyonproject
+  description: Canna API Documentation with Swagger
+  title: Canna Got That Swag - API Documentation
+  version: "1.0"
+paths:
+  /api/issue:
+    get:
+      consumes:
+      - application/json
+      description: Fetch all submitted issues data by User
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/issue.IssueData'
+      summary: Get All Issue Data
+      tags:
+      - Issue
+    post:
+      consumes:
+      - application/json
+      description: Submit Project Issue Data
+      parameters:
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/issue.IssueDataPOST'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/issue.IssueDataPOST'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Submit Project Issue
+      tags:
+      - Issue
+  /api/issue/post/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Submitted Issue Data.
+      parameters:
+      - description: Insert Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Delete Issue.
+      tags:
+      - Issue
+    get:
+      consumes:
+      - application/json
+      description: Fetch one specified issue data subm,itted by User.
+      parameters:
+      - description: Insert Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/issue.IssueData'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get Specific Issue Post.
+      tags:
+      - Issue
+    put:
+      consumes:
+      - application/json
+      description: Update submitted issue data post.
+      parameters:
+      - description: Insert Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/issue.IssueDataPOST'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/issue.IssueDataPOST'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Update issue
+      tags:
+      - Issue
+schemes:
+- https
+- http
+securityDefinitions:
+  BearerAuth:
+    description: Enter your bearer token in the format "Bearer {token}"
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
